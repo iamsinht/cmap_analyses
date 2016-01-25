@@ -19,6 +19,8 @@ switch lower(args.metric)
     t = apply_pearson(ds1, ds2, args);
   case 'wtcslm'
     t = apply_wtcslm(ds1, ds2, args);
+  case 'unflattened_wtcslm'
+    t = apply_unflattened_wtcslm(ds1, ds2, args);
   otherwise
     error('Invalid metric parameter: specify which metric to use');
 end
@@ -45,4 +47,8 @@ function t = apply_wtcslm(ds1, ds2, args)
   t = sds(:,:,3);
 end
 
+function t = apply_unflattened_wtcslm(ds1, ds2, args)
+  sds = compute_cmap_score(ds1, ds2, 'metric', 'wtcs', 'es_tail', 'both', 'gset_size', 50);
+  t = (sds(:,:,1) - sds(:,:,2))/2;
+end
 
